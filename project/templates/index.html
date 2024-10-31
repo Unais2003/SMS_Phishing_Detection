@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Phishing Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, #1e1e1e, #111);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #f00;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        h2::before, h2::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f00;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.1;
+            animation: glitch 2s infinite;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #666;
+            background-color: #222;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        textarea:focus {
+            border-color: #f00;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        button {
+            background-color: #f00;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background-color: #900;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+        .output {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #222;
+            font-size: 1rem;
+            display: none;
+            color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        .output.show {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(2px, -2px);
+            }
+            40% {
+                transform: translate(-2px, 2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(-2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        /* Glitch Effect on Container */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5px;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 0, 0, 0.1);
+            z-index: 1;
+            animation: glitch 1.5s infinite;
+            pointer-events: none;
+        }
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -5px;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 255, 0, 0.05);
+            z-index: 1;
+            animation: glitch 1.5s infinite alternate;
+            pointer-events: none;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, #1e1e1e, #111);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #f00;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        h2::before, h2::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f00;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.1;
+            animation: glitch 2s infinite;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #666;
+            background-color: #222;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        textarea:focus {
+            border-color: #f00;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        button {
+            background-color: #f00;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background-color: #900;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+        .output {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #222;
+            font-size: 1rem;
+            display: none;
+            color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        .output.show {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(2px, -2px);
+            }
+            40% {
+                transform: translate(-2px, 2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(-2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        /* Glitch Effect on Container */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5px;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 0, 0, 0.1);
+            z-index: 1;
+            animation: glitch 1.5s infinite;
+            pointer-events: none;
+        }
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -5px;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 255, 0, 0.05);
+            z-index: 1;
+            animation: glitch 1.5s infinite alternate;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 data-text="SMS Phishing Detection">SMS Phishing Detection</h2>
+        <textarea id="smsInput" placeholder="Paste the SMS text here..."></textarea><br>
+        <button onclick="checkSMS()">Check</button>
+        <div id="output1" class="output"></div>
+        <div id="output2" class="output"></div>
+        <div id="output3" class="output"></div>
+    </div>
+
+    <script>
+        const spamKeywords = [
+            "free", "win", "winner", "congratulations", "claim now", "urgent", "exclusive offer",
+        ];
+    
+        function checkSMS() {
+            const smsText = document.getElementById('smsInput').value.toLowerCase();
+            
+            
+            let result1 = '✅ This SMS is not spam.';
+            let result2 = 'Probability Score: 0%';
+            let result3 = 'No suspicious keywords found.';
+            
+            const matchedKeywords = spamKeywords.filter(keyword => smsText.includes(keyword));
+            if (matchedKeywords.length > 0) {
+                result1 = 'Detected Spam keywords: ' + matchedKeywords.join(', ');
+                result2 = `Probability Score: ${matchedKeywords.length * 2}% Spam Likely`;
+                result3 = 'Detected keywords: ' + matchedKeywords.join(', ');
+            }
+
+            
+            const linkPattern = /[a-zA-Z][a-zA-Z\d+\-.]*:\/\/[^\s]+/g;
+            const foundLinks = smsText.match(linkPattern) || [];
+            const linkResult = foundLinks.length > 0 
+                ? `Links detected: ${foundLinks.join(', ')}`
+                : 'No links detected in the SMS text.';
+    
+            
+            document.getElementById('output1').textContent = result1;
+            document.getElementById('output1').classList.add('show');
+    
+            document.getElementById('output2').textContent = result2 + '\n' + linkResult;
+            document.getElementById('output2').classList.add('show');
+    
+            document.getElementById('output3').textContent = result3;
+            document.getElementById('output3').classList.add('show');
+        }
+    </script>    
+</body>
+</html>
